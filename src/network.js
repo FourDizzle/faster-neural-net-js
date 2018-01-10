@@ -162,9 +162,9 @@ const stochGradDesc =
       
       if (options && options.testData) {
         let success = evaluate(network, options.testData)
-        console.log(`Epoch ${i}: ${success}/${testData.length}`)
+        console.log(`Epoch ${i + 1}: ${success}/${testData.length}`)
       } else {
-        console.log(`Epoch ${i} complete`)
+        console.log(`Epoch ${i + 1} complete`)
       }
       process.stdout.write('\n')
     }
