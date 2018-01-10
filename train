@@ -25,8 +25,8 @@ const net = network.generateNetwork(program.layers)
 dataUtil.loadTrainingData(__dirname + '/' + program.trainingData).then((data) => {
   return network.stochGradDesc(net, data, program.epochs, program.batchSize, program.learningRate)
 }).then((trainedNet) => {
-  return dataLoader.saveNeuralNet(__dirname + '/' + program.trainedFile, trainedNet)
-})
+  return dataUtil.saveNeuralNet(__dirname + '/' + program.trainedFile, trainedNet)
+}).catch(err => console.log(err))
   // network
   // 	- location
   // 	or
