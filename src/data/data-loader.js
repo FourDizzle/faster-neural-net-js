@@ -90,5 +90,9 @@ module.exports = {
     } else {
       return Promise.reject('image data type must either be "train" or "test"')
     }
+  },
+  
+  load: (filename) => {
+    
   }
 }

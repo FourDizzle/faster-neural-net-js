@@ -135,11 +135,12 @@ const updateToMiniBatch = (network, miniBatch, eta) => {
 }
 
 const stochGradDesc =
-  (network, trainingData, numEpochs, miniBatchSize, learningRate, testData) => {
+  (network, trainingData, numEpochs, miniBatchSize, learningRate, options) => {
     let epoch = []
     let percentComplete = 0;
+    
     for (let i = 0; i < numEpochs; i++) {
-      console.log(`Starting Epoch ${i}`)
+      console.log(`Starting Epoch ${i + 1}`)
       epoch = dataUtil.generateEpoch(trainingData, miniBatchSize)
       const updateInterval = Math.round(epoch.length / 110)
       process.stdout.write(getProgressBar(0))
@@ -153,7 +154,13 @@ const stochGradDesc =
         }
       }
       process.stdout.write('\n')
-      if (testData) {
+      
+      // Save after every iteration incase process is interrupted
+      if (options && options.recoveryFile) {
+        dataUtil.saveNeuralNet(options.recoveryFile, network)
+      }
+      
+      if (options && options.testData) {
         let success = evaluate(network, testData)
         console.log(`Epoch ${i}: ${success}/${testData.length}`)
       } else {
@@ -161,6 +168,7 @@ const stochGradDesc =
       }
       process.stdout.write('\n')
     }
+    return network
 }
 
 module.exports = {
