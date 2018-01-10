@@ -48,7 +48,7 @@ const generateNetwork = (layerSizes) => {
 const evaluate = (network, testData) => {
   let numCorrect = 0
   for (let i = 0; i < testData.length; i++) {
-    let result = feedForward(network, testData[i].pixels).reduce((val, out, i, vector) => {
+    let result = feedForward(network, testData[i].input).reduce((val, out, i, vector) => {
       if (out > vector[val]) {
         return i
       } else {
@@ -119,7 +119,7 @@ const updateToMiniBatch = (network, miniBatch, eta) => {
   let deltaNet = { weights: [], biases: [] }
   
   for (let i = 0; i < miniBatch.length; i++) {
-    deltaNet = backprop(network, miniBatch[i].pixels, miniBatch[i].vectorLabel)
+    deltaNet = backprop(network, miniBatch[i].input, miniBatch[i].expectedOutput)
     nablaBiases = netUtil.addBiasesOrWeights(nablaBiases, deltaNet.biases)
     nablaWeights = netUtil.addBiasesOrWeights(nablaWeights, deltaNet.weights)
   }
@@ -161,7 +161,7 @@ const stochGradDesc =
       }
       
       if (options && options.testData) {
-        let success = evaluate(network, testData)
+        let success = evaluate(network, options.testData)
         console.log(`Epoch ${i}: ${success}/${testData.length}`)
       } else {
         console.log(`Epoch ${i} complete`)

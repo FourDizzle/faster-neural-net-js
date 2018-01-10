@@ -73,9 +73,9 @@ const loadData = (labelsFilename, imagesFilename) => {
       const vectorLabel = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
       vectorLabel[labels[i]] = 1
       return {
-        vectorLabel: vectorLabel,
+        expectedOutput: vectorLabel,
         label: labels[i],
-        pixels: image,
+        input: image,
       }
     })
   }).catch((err) => console.log(err))

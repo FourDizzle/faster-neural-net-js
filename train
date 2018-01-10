@@ -2,25 +2,31 @@
 
 const program = require('commander')
 
+const dataUtil = require('./src/data')
+const network = require('./src/network')
+
 const parseLayers = (layerString) => {
   return layerString.split(',')
 }
 
 program
   .version('0.0.1')
-  .usage('[options] <file>')
-  .option('-s, --save <file>', 'Location to save trained network when finished')
-  .option('-n, --network <file>', 'Location of existing network to continue training')
+  .description('Trains and saves a sigmoid neural net')
+  .option('-f, --trained-file <file>', 'File to save the trained network json')
   .option('-l, --layers <layers>', 'A comma separated list of the number of neurons per layer', parseLayers)
   .option('-d, --training-data <file>', 'Location of training data')
-  .option('-t, --test-data <file>', 'Optional test data location')
   .option('-e, --epochs [value]', 'The number of times to iterate over all training data [default 10]', parseInt, 10)
   .option('-b, --batch-size [value]', 'The size of batches to split epoch into [default 10]', parseInt, 10)
   .option('-r, --learning-rate [value]', 'The learning rate [default 3.0]', parseFloat, 3.0)
   .parse(process.argv)
   
+const net = network.generateNetwork(program.layers)
 
-  
+dataUtil.loadTrainingData(__dirname + '/' + program.trainingData).then((data) => {
+  return network.stochGradDesc(net, data, program.epochs, program.batchSize, program.learningRate)
+}).then((trainedNet) => {
+  return dataLoader.saveNeuralNet(__dirname + '/' + program.trainedFile, trainedNet)
+})
   // network
   // 	- location
   // 	or
