@@ -1,3 +1,5 @@
+"use strict";
+
 const os = require('os')
 const util = require('util')
 const fs = require('fs')
@@ -9,10 +11,10 @@ const read = util.promisify(fs.read)
 
 const isLittleEndian = (os.endianness() === 'LE')
 
-const trainLabels = __dirname + '/../data/train-labels-idx1-ubyte'
-const trainImages = __dirname + '/../data/train-images-idx3-ubyte'
-const testLabels = __dirname + '/../data/t10k-labels-idx1-ubyte'
-const testImages = __dirname + '/../data/t10k-images-idx3-ubyte'
+const trainLabels = __dirname + '/../../data/train-labels-idx1-ubyte'
+const trainImages = __dirname + '/../../data/train-images-idx3-ubyte'
+const testLabels = __dirname + '/../../data/t10k-labels-idx1-ubyte'
+const testImages = __dirname + '/../../data/t10k-images-idx3-ubyte'
 
 const swapEndian32 = (val) => {
   return ((val & 0xFF) << 24)

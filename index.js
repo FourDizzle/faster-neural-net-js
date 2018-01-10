@@ -1,10 +1,16 @@
-const dataLoader = require('./src/data-loader')
+"use strict"
+
+const readline = require('readline')
+
+const dataLoader = require('./src/data')
 const nn = require('./src/network')
 const _ = require('lodash')
 
+readline.cursorTo(process.stdout, 0, 0);
+readline.clearScreenDown(process.stdout)
+console.log('Neural Network Training:')
+
 const net = nn.generateNetwork([784, 30, 10])
-dataLoader.loadData('train').then((data) => {
-  const output = nn.feedForward(net, data[2].pixels)
-  console.log('output: ', output)
-  console.log('input: ', data[2].vectorLabel)
-}).catch(err => console.log(err))
+Promise.all([dataLoader.load('train'), dataLoader.load('test')]).then((data) => {
+  nn.stochGradDesc(net, data[0], 30, 10, 3.0, data[1])
+}).catch((err) => console.log(err))
