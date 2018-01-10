@@ -27,14 +27,3 @@ dataUtil.loadTrainingData(__dirname + '/' + program.trainingData).then((data) =>
 }).then((trainedNet) => {
   return dataUtil.saveNeuralNet(__dirname + '/' + program.trainedFile, trainedNet)
 }).catch(err => console.log(err))
-  // network
-  // 	- location
-  // 	or
-  // 	- layer sizes
-  // 
-  // 
-  // training data location
-  // number of epochs
-  // mini batch size
-  // learning rate
-  // test data location
